@@ -1,23 +1,26 @@
 namespace CH.AutoRepair.UI
 {
+    //OOP Pillars 
+    //1. Encapsulation -- Package up related data and methods (MultiVitimum)
+    //2. Inheritance -- Getting stuff for free
+    //3. Polymorphism --
+    //**4. Abstraction -- Don't need to know how
     public partial class Form1 : Form
     {
         //fields
 
         //a list is just a spot in memory
-        private List<Customer> customerList = new List<Customer>();
+        //"<>" are "of type" Customer 
+        private CustomerCollection customers = new CustomerCollection();
 
 
-        //properties 
 
-
-        //constrctors
-
-
-        
+        //constructor
         public Form1()
         {
             InitializeComponent();
+            customers.LoadTestCustomers();
+            RebindCustomers();
         }
 
         //methods
@@ -34,16 +37,22 @@ namespace CH.AutoRepair.UI
             customer.PhoneNumber= txtPhoneNumber.Text;
 
             //adds the customers add to the list 
-            customerList.Add(customer);
+            this.customers.Add(customer);
 
+            RebindCustomers();
+            
+        }
+
+        private void RebindCustomers()
+        {
             lstCustomers.DataSource = null; //unbind (Allowing it to refresh)
             //The list box on the form (lstCustomer) will get the data from the List<Customer>
-            lstCustomers.DataSource= customerList; // re-binding 
+            lstCustomers.DataSource = this.customers; // re-binding 
         }
 
         private void lstCustomers_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //
+            
             Customer? selectedCustomer = lstCustomers.SelectedItem as Customer;
 
             if (selectedCustomer != null)
